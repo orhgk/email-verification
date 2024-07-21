@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <script>
+        async function verifyEmails(event) {
+            event.preventDefault();
+            const emailInputs = document.querySelectorAll('input[name="emails"]');
+            const emails = [];
+            emailInputs.forEach(input => {
+                if (input.value) {
+                    emails.push(input.value);
+                }
+            });
+
+            if (emails.length > 5) {
+                alert('You can only verify up to 5 emails at a time.');
+                return;
+            }
+
+            const response = await fetch('/verify-emails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ emails })
+            });
+            const results = await response.json();
+            const resultDiv = document.getElementById('results');
+            resultDiv.innerHTML = '<h2>Results:</h2>';
+            for (const email in results) {
+                resultDiv.innerHTML += `<p>${email}: ${results[email] ? 'Valid' : 'Invalid'}</p>`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Email Verification</h1>
+    <form onsubmit="verifyEmails(event)">
+        <label for="email1">Email 1:</label>
+        <input type="email" id="email1" name="emails"><br><br>
+        <label for="email2">Email 2:</label>
+        <input type="email" id="email2" name="emails"><br><br>
+        <label for="email3">Email 3:</label>
+        <input type="email" id="email3" name="emails"><br><br>
+        <label for="email4">Email 4:</label>
+        <input type="email" id="email4" name="emails"><br><br>
+        <label for="email5">Email 5:</label>
+        <input type="email" id="email5" name="emails"><br><br>
+        <button type="submit">Verify Emails</button>
+    </form>
+    <div id="results"></div>
+</body>
+</html>

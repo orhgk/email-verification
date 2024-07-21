@@ -1,0 +1,14 @@
+{
+  "name": "email-verification",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "dns": "^0.2.2",
+    "promises-smtp": "^1.0.0"
+  }
+}
